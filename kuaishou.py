@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
 """
-cron: 55 1,9,16 * * *
+cron: 55 8,23 * * *
 const $ = new Env("快手签到");
 """
 import sys
