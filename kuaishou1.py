@@ -10,7 +10,7 @@ import traceback
 import requests
 import json
 
-SIGN_LOG = 'logs/kuaishou.log'
+SIGN_LOG = 'logs/kuaishou1.log'
 
 work_path = os.path.dirname(os.path.abspath(__file__))
 SIGN_LOG_FILE = os.path.join(work_path, SIGN_LOG)
