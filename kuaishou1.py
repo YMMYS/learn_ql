@@ -2,7 +2,7 @@
 # coding=utf-8
 """
 cron: 55 8,23 * * *
-const $ = new Env("快手签到");
+const $ = new Env("快手签到1");
 """
 import sys
 import os
