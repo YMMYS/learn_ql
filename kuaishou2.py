@@ -314,4 +314,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-    send_notification_message(title="快手")
+    send_notification_message(title="快手2")
