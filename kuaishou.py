@@ -18,9 +18,6 @@ SIGN_LOG_FILE = os.path.join(work_path, SIGN_LOG)
 # 定义全局列表来存储所有输出
 all_print_list = []
 
-# 保存原来的 print 函数
-original_print = print
-
 # 重写 print 函数
 def custom_print(*args, **kwargs):
     # 将输出转换为字符串
@@ -30,8 +27,11 @@ def custom_print(*args, **kwargs):
     # 同时输出到控制台
     original_print(*args, **kwargs)
 
+# 保存原来的 print 函数
+original_print = print
 # 重定向 print
 print = custom_print
+
 
 # 发送通知消息
 def send_notification_message(title):
@@ -42,18 +42,20 @@ def send_notification_message(title):
         if e:
             print('发送通知消息失败！')
 
-# 获取环境变量中的Cookie
 _cookie_raw = os.getenv('KS_COOKIE')
 if not _cookie_raw:
     print("请先在环境变量里添加 \"KS_COOKIE\" 填写对应快手的 cookie 值")
     exit(0)
 
-# 分割Cookie
 if isinstance(_cookie_raw, list):
     Cookies = [str(c).strip() for c in _cookie_raw if str(c).strip()]
 else:
     Cookies = [c.strip() for c in str(_cookie_raw).split('&') if c.strip()]
 
+# 协议头
+Agent = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/14.10.30.10104 ISLP/0 StatusHT/62 KDT/PHONE iosSCH/0 TitleHT/44 NetType/WIFI ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.5.11 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az4"
+# Accept-Language
+Accept_Language = "zh-CN,zh;q=0.9"
 
 def get_baoxiang(token):
     print('开始领取宝箱 💎')
@@ -66,7 +68,7 @@ def get_baoxiang(token):
             "Host": "encourage.kuaishou.com",
             "Connection": "keep-alive",
             "Content-Length": "2",
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.3.30.9227 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/1 TitleHT/44 NetType/lte ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.1.3 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1",
+            "User-Agent": Agent,
             "content-type": "application/json",
             "Accept": "*/*",
             "Origin": "https://encourage.kuaishou.com",
@@ -76,7 +78,7 @@ def get_baoxiang(token):
             "Sec-Fetch-Dest": "empty",
             "Referer": "https://encourage.kuaishou.com/kwai/task?layoutType=4&source=pendant&hyId=encourage_earning",
             "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Accept-Language": Accept_Language,
             "Cookie": token
         }
 
@@ -99,7 +101,7 @@ def get_fanbu(token):
         headers = {
             "Host": "encourage.kuaishou.com",
             "Connection": "keep-alive",
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.3.30.9227 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/1 TitleHT/44 NetType/lte ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.1.3 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1",
+            "User-Agent": Agent,
             "content-type": "application/json",
             "Accept": "*/*",
             "Origin": "https://encourage.kuaishou.com",
@@ -109,7 +111,7 @@ def get_fanbu(token):
             "Sec-Fetch-Dest": "empty",
             "Referer": "https://encourage.kuaishou.com/activity/dish?layoutType=4&encourageEventTracking=W3siZW5jb3VyYWdlX3Rhc2tfaWQiOjIwMDA4LCJlbmNvdXJhZ2VfcmVzb3VyY2VfaWQiOiJlYXJuUGFnZV90YXNrTGlzdF8xNyIsImV2ZW50VHJhY2tpbmdMb2dJbmZvIjpbeyJldmVudFRyYWNraW5nVGFza0lkIjoyMDAwOCwicmVzb3VyY2VJZCI6ImVhcm5QYWdlX3Rhc2tMaXN0XzE3IiwiZXh0UGFyYW1zIjp7fX1dfV0",
             "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Accept-Language": Accept_Language,
             "Cookie": token
         }
         resp = requests.get(url, headers=headers)
@@ -124,7 +126,7 @@ def get_fanbu(token):
                 headers = {
                     "Host": "encourage.kuaishou.com",
                     "Connection": "keep-alive",
-                    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.3.30.9227 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/1 TitleHT/44 NetType/lte ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.1.3 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1",
+                    "User-Agent": Agent,
                     "content-type": "application/json",
                     "Accept": "*/*",
                     "Origin": "https://encourage.kuaishou.com",
@@ -134,7 +136,7 @@ def get_fanbu(token):
                     "Sec-Fetch-Dest": "empty",
                     "Referer": "https://encourage.kuaishou.com/activity/dish?layoutType=4&encourageEventTracking=W3siZW5jb3VyYWdlX3Rhc2tfaWQiOjIwMDA4LCJlbmNvdXJhZ2VfcmVzb3VyY2VfaWQiOiJlYXJuUGFnZV90YXNrTGlzdF8xNyIsImV2ZW50VHJhY2tpbmdMb2dJbmZvIjpbeyJldmVudFRyYWNraW5nVGFza0lkIjoyMDAwOCwicmVzb3VyY2VJZCI6ImVhcm5QYWdlX3Rhc2tMaXN0XzE3IiwiZXh0UGFyYW1zIjp7fX1dfV0",
                     "Accept-Encoding": "gzip, deflate",
-                    "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+                    "Accept-Language": Accept_Language,
                     "Cookie": token
                 }
 
@@ -167,7 +169,7 @@ def get_money(token):
         headers = {
             "Host": "encourage.kuaishou.com",
             "Connection": "keep-alive",
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.3.30.9227 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/1 TitleHT/44 NetType/lte ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.1.3 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1",
+            "User-Agent": Agent,
             "content-type": "application/json",
             "Accept": "*/*",
             "X-Requested-With": "com.kuaishou.nebula",
@@ -176,7 +178,7 @@ def get_money(token):
             "Sec-Fetch-Dest": "empty",
             "Referer": "https://encourage.kuaishou.com/kwai/task?layoutType=4&source=pendant&hyId=encourage_earning",
             "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Accept-Language": Accept_Language,
             "Cookie": token
         }
 
@@ -202,7 +204,7 @@ def get_walk(token):
         headers = {
             "Host": "encourage.kuaishou.com",
             "Connection": "keep-alive",
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.3.30.9227 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/1 TitleHT/44 NetType/lte ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.1.3 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1",
+            "User-Agent": Agent,
             "content-type": "application/json",
             "Accept": "*/*",
             "Origin": "https://encourage.kuaishou.com",
@@ -212,7 +214,7 @@ def get_walk(token):
             "Sec-Fetch-Dest": "empty",
             "Referer": "https://encourage.kuaishou.com/activity/walk?layoutType=4&source=new_task_center&encourageEventTracking=W3siZW5jb3VyYWdlX3Rhc2tfaWQiOjIwMDQ4LCJlbmNvdXJhZ2VfcmVzb3VyY2VfaWQiOiJlYXJuUGFnZV90YXNrTGlzdF8yMiIsImV2ZW50VHJhY2tpbmdMb2dJbmZvIjpbeyJldmVudFRyYWNraW5nVGFza0lkIjoyMDA0OCwicmVzb3VyY2VJZCI6ImVhcm5QYWdlX3Rhc2tMaXN0XzIyIiwiZXh0UGFyYW1zIjp7fX1dfV0",
             "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Accept-Language": Accept_Language,
             "Cookie": token
         }
 
@@ -238,7 +240,7 @@ def get_walk(token):
                 headers = {
                     "Host": "encourage.kuaishou.com",
                     "Connection": "keep-alive",
-                    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.3.30.9227 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/1 TitleHT/44 NetType/lte ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.1.3 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1",
+                    "User-Agent": Agent,
                     "content-type": "application/json",
                     "Accept": "*/*",
                     "Origin": "https://encourage.kuaishou.com",
@@ -248,7 +250,7 @@ def get_walk(token):
                     "Sec-Fetch-Dest": "empty",
                     "Referer": "https://encourage.kuaishou.com/activity/dish?layoutType=4&encourageEventTracking=W3siZW5jb3VyYWdlX3Rhc2tfaWQiOjIwMDA4LCJlbmNvdXJhZ2VfcmVzb3VyY2VfaWQiOiJlYXJuUGFnZV90YXNrTGlzdF8xNyIsImV2ZW50VHJhY2tpbmdMb2dJbmZvIjpbeyJldmVudFRyYWNraW5nVGFza0lkIjoyMDAwOCwicmVzb3VyY2VJZCI6ImVhcm5QYWdlX3Rhc2tMaXN0XzE3IiwiZXh0UGFyYW1zIjp7fX1dfV0",
                     "Accept-Encoding": "gzip, deflate",
-                    "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+                    "Accept-Language": Accept_Language,
                     "Cookie": token
                 }
                 resp = requests.get(url, headers=headers)
@@ -277,7 +279,7 @@ def get_qiandao(token):
         headers = {
             "Host": "encourage.kuaishou.com",
             "Connection": "keep-alive",
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Kwai/13.3.30.9227 ISLP/0 StatusHT/47 KDT/PHONE iosSCH/1 TitleHT/44 NetType/lte ISDM/0 ICFO/0 locale/zh-Hans CT/0 Yoda/3.1.3 ISLB/0 CoIS/2 ISLM/0 WebViewType/WK BHT/102 AZPREFIX/az1",
+            "User-Agent": Agent,
             "content-type": "application/json",
             "Accept": "*/*",
             "X-Requested-With": "com.kuaishou.nebula",
@@ -286,7 +288,7 @@ def get_qiandao(token):
             "Sec-Fetch-Dest": "empty",
             "Referer": "https://encourage.kuaishou.com/kwai/task?layoutType=4&source=pendant&hyId=encourage_earning",
             "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Accept-Language": Accept_Language,
             "Cookie": token
         }
 
