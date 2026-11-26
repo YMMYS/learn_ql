@@ -309,7 +309,7 @@ def main():
     get_qiandao(_cookie)
     get_baoxiang(_cookie)
     #get_fanbu(_cookie)
-    get_walk(_cookie)
+    # get_walk(_cookie)
     get_money(_cookie)
 
 if __name__ == '__main__':
